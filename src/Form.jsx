@@ -4,10 +4,12 @@ import Card from './Card'
 
 const Form = () => {
 
-    const [user, setUser] = useState({
-        nombre:"",
-        respuesta:"",
-    });
+    // const [user, setUser] = useState({
+    //     nombre:"",
+    //     respuesta:"",
+    // });
+    const [nombre, setNombre] = useState("")
+    const [respuesta, setRespuesta] = useState("")
 
     const [esValido, SetesValido] = useState(false)
     const [error, setError] = useState(false)
@@ -16,27 +18,33 @@ const Form = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        if(user.nombre.trim().length >=3 && user.respuesta.length >=6){
-            SetesValido(true);
-            setError(false);
+        if(nombre.startsWith(" ") || nombre.trim().length <3){
+            setError(true);
+            SetesValido(false);
+            return;
         }
-        else
-        setError(true);
-        
-    }
+        if (respuesta.length < 6) {
+            setError(true);
+            SetesValido(false);
+            return;
+        }
+        setError("");
+            SetesValido(true);
+    };
+
     return (
 
-        <div>
+        <div className="form-container">
             <form onSubmit={handleSubmit}>
             <label>Nombre</label>
-            <input value={user.nombre} type="text" onChange={(e)=> setUser({...user, nombre:e.target.value})}/>
+            <input value={nombre} type="text" onChange={(e)=> setNombre(e.target.value)}/>
             <label>¿Qué libro recomendarias y por qué ?</label>
-            <input value={user.respuesta} type="text" onChange={(e)=> setUser({...user, respuesta:e.target.value})}/>
+            <input value={respuesta} type="text" onChange={(e)=> setRespuesta(e.target.value)}/>
             <button >Enviar</button>
-
-            {error ? (<h4 style={{color:'red'}}>Por favor chequea que la información sea correcta</h4>):null}
             </form>
-            {esValido? <Card nombre={user.nombre} respuesta={user.respuesta} /> : null} 
+            {error && (<h4 className='error' style={{color:'red'}}>Por favor chequea que la información sea correcta</h4>)}
+            
+            {esValido && <Card nombre={nombre} respuesta={respuesta} />} 
         </div>
     )
 }
