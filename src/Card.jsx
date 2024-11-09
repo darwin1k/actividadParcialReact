@@ -1,8 +1,11 @@
 
 
-const Card = () => {
+const Card = ({nombre, respuesta}) => {
     return (
-        <div>Hola, soy una tarjeta</div>
+        <div>
+            <h3>Hola {nombre}</h3>
+            <h3>Sabemos que tu recomendación de libro es: {respuesta}</h3>
+            </div>
     )
 }
 
